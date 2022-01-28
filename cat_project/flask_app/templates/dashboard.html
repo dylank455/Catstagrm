@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-F3w7mX95PdgyTmZZMECAngseQB83DfGTowi0iMjiWaeVhAn4FJkqJByhZMI3AhiU" crossorigin="anonymous">
+    <title>Dashboard</title>
+    <link href='https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900|Material+Icons' rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/@mdi/font@5.x/css/materialdesignicons.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/vuetify@2.x/dist/vuetify.min.css" rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, minimal-ui">
+    
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+</head>
+<body>
+
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="#">What About Cats</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                <li class="nav-item">
+                <a class="nav-link active" aria-current="page" href="#">Home</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#">Profile</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href=add_a_cat>My Cats</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="add_a_cat" src="add_a_cat">Add a Cat</a>
+            </li>
+
+            </ul>
+
+            <a class="btn btn-danger" href="/logout">Logout</a>
+        </div>
+        </div>
+    </nav>
+
+
+
+    <div class="container">
+        
+        <center><h6> Welcome, <span class="text">{{ user.first_name }}</span>!</h6></center>
+    </div>
+
+
+
+<!-- 
+    <p>
+        Upload Image
+        </p>
+        <form id="upload_form" enctype="multipart/form-data">
+            <input type="file" id="file" name="file">
+            <p>[optional] sub_id
+            <input type="text" id="sub_id" name="sub_id">
+            </p>
+            <button id="uploadBtn">Upload</button>
+        </form>
+        <button onclick="location.reload();">New Cat!</button>
+        <hr>
+        <p>Request Status:</p>
+        <div id="status"></div>
+        <hr>
+        <p>API Response:</p>
+        <div id="response"></div>
+
+        <div id="id"></div>
+        <div id="url"></div>
+        <div id="image"></div>
+
+        <script src="static/script.js"></script> -->
+
+
+
+    
+            <script src="https://cdn.jsdelivr.net/npm/vue@2.x/dist/vue.js"></script>
+            <script src="https://cdn.jsdelivr.net/npm/vuetify@2.x/dist/vuetify.js"></script>
+            <div id="app">
+                <v-app>
+                <v-content>
+                    <v-container>
+            
+                        <v-layout align-center justify-center>
+                            <v-btn color="gray" dark large @click="loadNextImage" >
+                                New Cat &nbsp; 
+                            </v-btn>
+
+                        </v-layout>
+            
+                        <v-layout row wrap>
+                            <v-flex xs12 >
+                            <v-card flat tile class="d-flex">
+                                <v-img :src="image.url" contain>
+                                </v-img>
+                            </v-card>
+                            </v-flex>
+                        </v-layout>
+            
+                    </v-container>
+                    </v-content>
+                </v-app>
+                </div>
+            
+                <script>
+                new Vue({ 
+                    el: '#app',
+                    vuetify: new Vuetify(),
+                    data: {
+                        image: { url: ""}
+                    },
+                    created(){
+                        this.loadNextImage();
+                    } ,
+                    methods:{
+                        async loadNextImage()
+                        {
+                            try{
+                                axios.defaults.headers.common['x-api-key'] = "2fc39c7f-ca33-4e19-bdb5-b55267e717fe" // Replace this with your API Key
+            
+                                let response = await axios.get('https://api.thecatapi.com/v1/images/search', { params: { limit:1, size:"full" } } ) // Ask for 1 Image, at full resolution
+                                
+                                this.image = response.data[0] // the response is an Array, so just use the first item as the Image
+            
+                                console.log("-- Image from TheCatAPI.com")
+                                console.log("id:", this.image.id)
+                                console.log("url:", this.image.url)
+            
+                            }catch(err){
+                                console.log(err)
+                            }
+                        }
+                    }
+                })
+            </script>
+</body>
+</html>
